@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Gopu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background: #0f0c29;
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Typography */
+        .title-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Glassmorphism Card - Optimized for Readability */
+        .glass-card {
+            background: rgba(16, 16, 36, 0.75); /* Darker, higher opacity for readability */
+            backdrop-filter: blur(16px);        /* Increased blur */
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d; /* Enable 3D transform */
+            perspective: 1000px;
+        }
+
+        /* Text Gradient & Glow */
+        .glowing-text {
+            background: linear-gradient(to right, #ff9a9e, #fecfef, #feada6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); /* Stronger glow */
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); }
+            100% { filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9)); }
+        }
+
+        /* Floating Animation */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Heartbeat */
+        .heart-beat {
+            animation: beat 1.5s infinite;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.15); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+
+        /* Button Shine Effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        .btn-shine:hover::after {
+            left: 100%;
+        }
+
+        /* Custom Scrollbar just in case */
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative">
+
+    <!-- Interactive Canvas Background -->
+    <canvas id="canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
+
+    <!-- Main Content Container -->
+    <div class="relative z-10 p-6 md:p-12 max-w-2xl w-full mx-4 perspective-container">
+        
+        <!-- Glass Card -->
+        <div id="tiltCard" class="glass-card rounded-3xl p-8 md:p-16 text-center transition-transform duration-100 ease-out will-change-transform">
+            
+            <!-- Decorative Icon -->
+            <div class="mb-6 flex justify-center transform translate-z-20">
+                <svg class="w-20 h-20 text-pink-400 heart-beat drop-shadow-[0_0_20px_rgba(244,114,182,0.8)]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <!-- Main Text -->
+            <h1 class="title-font text-6xl md:text-8xl lg:text-9xl font-bold mb-4 glowing-text leading-tight select-none transform translate-z-30">
+                Lub u <br/> Gopu
+            </h1>
+
+            <!-- Subtext / Typing Effect -->
+            <div class="h-8 mt-4 md:mt-8 transform translate-z-20">
+                <p id="typewriter" class="text-gray-200 text-sm md:text-lg tracking-[0.2em] uppercase font-medium drop-shadow-md"></p>
+            </div>
+
+            <!-- Interactive Button -->
+            <button onclick="burstHearts()" class="btn-shine mt-12 px-10 py-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-white font-semibold tracking-wider transition-all duration-300 backdrop-blur-sm group transform translate-z-40 shadow-lg hover:shadow-pink-500/20 active:scale-95">
+                <span class="group-hover:tracking-widest transition-all duration-300">Click for Magic</span>
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Background Music Control (Visual Only) -->
+    <div class="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-white/70 text-xs md:text-sm font-light tracking-wider">
+        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_10px_#4ade80]"></div>
+        <span>Infinity Loop</span>
+    </div>
+
+<script>
+    /**
+     * Canvas Particle System - Optimized
+     */
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+
+    // Set canvas size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+    });
+
+    // Particle Class
+    class Particle {
+        constructor(x, y, directionX, directionY, size, color) {
+            this.x = x;
+            this.y = y;
+            this.directionX = directionX;
+            this.directionY = directionY;
+            this.size = size;
+            this.color = color;
+        }
+
+        // Draw particle
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+
+        // Update particle position
+        update() {
+            if (this.x > canvas.width || this.x < 0) {
+                this.directionX = -this.directionX;
+            }
+            if (this.y > canvas.height || this.y < 0) {
+                this.directionY = -this.directionY;
+            }
+
+            // Mouse interaction - Simplified math for performance
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            // Only check square distance to avoid Math.sqrt every frame
+            const distanceSq = dx*dx + dy*dy;
+            const radiusSq = (mouse.radius + this.size) * (mouse.radius + this.size);
+            
+            if (distanceSq < radiusSq){
+                if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
+                if (mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
+                if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
+                if (mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
+            }
+
+            this.x += this.directionX;
+            this.y += this.directionY;
+            this.draw();
+        }
+    }
+
+    // Mouse object
+    const mouse = {
+        x: null,
+        y: null,
+        radius: 100 // Fixed radius for consistent interaction
+    }
+
+    window.addEventListener('mousemove', (event) => {
+        mouse.x = event.x;
+        mouse.y = event.y;
+        
+        // Tilt Effect Logic
+        handleTilt(event);
+    });
+
+    // 3D Tilt Effect
+    const card = document.getElementById('tiltCard');
+    function handleTilt(e) {
+        if (window.innerWidth < 768) return; // Disable on mobile
+        
+        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    }
+    
+    // Reset tilt when mouse leaves
+    document.addEventListener('mouseleave', () => {
+        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    });
+
+
+    // Initialize particles
+    function init() {
+        particlesArray = [];
+        // Performance optimization: Reduce particle density
+        // Increased divisor from 9000 to 13000 to keep frame rates high
+        let numberOfParticles = (canvas.height * canvas.width) / 13000;
+        
+        for (let i = 0; i < numberOfParticles; i++) {
+            let size = (Math.random() * 2.5) + 1; // Slightly smaller particles
+            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+            let directionX = (Math.random() * 1.5) - 0.75; // Slower, smoother movement
+            let directionY = (Math.random() * 1.5) - 0.75;
+            
+            const colors = ['rgba(255, 182, 193, 0.7)', 'rgba(255, 105, 180, 0.5)', 'rgba(173, 216, 230, 0.5)'];
+            let color = colors[Math.floor(Math.random() * colors.length)];
+
+            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+        }
+    }
+
+    // Animation Loop
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+        }
+        
+        connect();
+    }
+
+    // Connect particles
+    function connect() {
+        let opacityValue = 1;
+        // Optimization: Reduced connection distance
+        const connectionDistance = (canvas.width/9) * (canvas.height/9); 
+        
+        for (let a = 0; a < particlesArray.length; a++) {
+            for (let b = a; b < particlesArray.length; b++) {
+                // Square distance check is faster
+                let distanceSq = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
+                               ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                
+                if (distanceSq < connectionDistance) {
+                    opacityValue = 1 - (distanceSq/20000);
+                    // Use standard strokeStyle to avoid creating new string every frame if possible
+                    ctx.strokeStyle = `rgba(255, 182, 193, ${opacityValue})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    /**
+     * Typewriter Effect
+     */
+    const textElement = document.getElementById('typewriter');
+    const messages = ["To my favorite person", "To the moon and back", "Always & Forever", "You are magical"];
+    let messageIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+        const currentMessage = messages[messageIndex];
+        
+        if (isDeleting) {
+            textElement.textContent = currentMessage.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            textElement.textContent = currentMessage.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        if (!isDeleting && charIndex === currentMessage.length) {
+            isDeleting = true;
+            setTimeout(typeEffect, 2000);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            messageIndex = (messageIndex + 1) % messages.length;
+            setTimeout(typeEffect, 500);
+        } else {
+            setTimeout(typeEffect, isDeleting ? 50 : 100);
+        }
+    }
+
+    /**
+     * Burst Hearts Function - Enhanced
+     */
+    function burstHearts() {
+        const container = document.body;
+        // More particles for better effect
+        for (let i = 0; i < 50; i++) {
+            const heart = document.createElement('div');
+            heart.innerHTML = ['❤️', '💖', '✨', '🌸', '🦋', '💜'][Math.floor(Math.random() * 6)];
+            heart.style.position = 'absolute';
+            // Start from center of button approx (or center screen)
+            heart.style.left = '50%';
+            heart.style.top = '50%';
+            heart.style.fontSize = Math.random() * 25 + 15 + 'px';
+            heart.style.pointerEvents = 'none';
+            heart.style.userSelect = 'none';
+            heart.style.transition = 'all 1.2s cubic-bezier(0, .9, .57, 1)';
+            heart.style.zIndex = '100';
+            
+            // Random direction spread
+            const angle = Math.random() * Math.PI * 2;
+            // Varies distance
+            const velocity = Math.random() * 400 + 100; 
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity;
+            const rotation = Math.random() * 360;
+            
+            container.appendChild(heart);
+            
+            // Animate
+            requestAnimationFrame(() => {
+                heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${rotation}deg) scale(0)`;
+                heart.style.opacity = '0';
+            });
+            
+            // Cleanup
+            setTimeout(() => {
+                heart.remove();
+            }, 1200);
+        }
+    }
+
+    // Start everything
+    init();
+    animate();
+    typeEffect();
+
+</script>
+</body>
+</html>
