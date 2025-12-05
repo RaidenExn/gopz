@@ -2,383 +2,682 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Gopu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Triangle Pro Ultimate</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Montserrat', sans-serif;
-            background: #0f0c29;
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #1a1a2e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Typography */
-        .title-font {
-            font-family: 'Dancing Script', cursive;
-        }
-
-        /* Glassmorphism Card - Optimized for Readability */
-        .glass-card {
-            background: rgba(16, 16, 36, 0.75); /* Darker, higher opacity for readability */
-            backdrop-filter: blur(16px);        /* Increased blur */
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            transform-style: preserve-3d; /* Enable 3D transform */
-            perspective: 1000px;
-        }
-
-        /* Text Gradient & Glow */
-        .glowing-text {
-            background: linear-gradient(to right, #ff9a9e, #fecfef, #feada6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); /* Stronger glow */
-            animation: pulse-glow 3s infinite alternate;
-        }
-
-        @keyframes pulse-glow {
-            0% { filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.6)); }
-            100% { filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9)); }
-        }
-
-        /* Floating Animation */
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* Heartbeat */
-        .heart-beat {
-            animation: beat 1.5s infinite;
-        }
-
-        @keyframes beat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.15); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.15); }
-            70% { transform: scale(1); }
-        }
-
-        /* Button Shine Effect */
-        .btn-shine {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-shine::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        .btn-shine:hover::after {
-            left: 100%;
-        }
-
-        /* Custom Scrollbar just in case */
-        ::-webkit-scrollbar { width: 0px; }
-    </style>
-</head>
-<body class="h-screen w-screen flex items-center justify-center relative">
-
-    <!-- Interactive Canvas Background -->
-    <canvas id="canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-
-    <!-- Main Content Container -->
-    <div class="relative z-10 p-6 md:p-12 max-w-2xl w-full mx-4 perspective-container">
-        
-        <!-- Glass Card -->
-        <div id="tiltCard" class="glass-card rounded-3xl p-8 md:p-16 text-center transition-transform duration-100 ease-out will-change-transform">
-            
-            <!-- Decorative Icon -->
-            <div class="mb-6 flex justify-center transform translate-z-20">
-                <svg class="w-20 h-20 text-pink-400 heart-beat drop-shadow-[0_0_20px_rgba(244,114,182,0.8)]" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-            </div>
-
-            <!-- Main Text -->
-            <h1 class="title-font text-6xl md:text-8xl lg:text-9xl font-bold mb-4 glowing-text leading-tight select-none transform translate-z-30">
-                Lub u <br/> Gopu
-            </h1>
-
-            <!-- Subtext / Typing Effect -->
-            <div class="h-8 mt-4 md:mt-8 transform translate-z-20">
-                <p id="typewriter" class="text-gray-200 text-sm md:text-lg tracking-[0.2em] uppercase font-medium drop-shadow-md"></p>
-            </div>
-
-            <!-- Interactive Button -->
-            <button onclick="burstHearts()" class="btn-shine mt-12 px-10 py-4 bg-white/10 hover:bg-white/20 border border-white/30 rounded-full text-white font-semibold tracking-wider transition-all duration-300 backdrop-blur-sm group transform translate-z-40 shadow-lg hover:shadow-pink-500/20 active:scale-95">
-                <span class="group-hover:tracking-widest transition-all duration-300">Click for Magic</span>
-            </button>
-
-        </div>
-    </div>
-
-    <!-- Background Music Control (Visual Only) -->
-    <div class="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-white/70 text-xs md:text-sm font-light tracking-wider">
-        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_10px_#4ade80]"></div>
-        <span>Infinity Loop</span>
-    </div>
-
-<script>
-    /**
-     * Canvas Particle System - Optimized
-     */
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let particlesArray;
-
-    // Set canvas size
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    // Handle Resize
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        init();
-    });
-
-    // Particle Class
-    class Particle {
-        constructor(x, y, directionX, directionY, size, color) {
-            this.x = x;
-            this.y = y;
-            this.directionX = directionX;
-            this.directionY = directionY;
-            this.size = size;
-            this.color = color;
-        }
-
-        // Draw particle
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-        }
-
-        // Update particle position
-        update() {
-            if (this.x > canvas.width || this.x < 0) {
-                this.directionX = -this.directionX;
-            }
-            if (this.y > canvas.height || this.y < 0) {
-                this.directionY = -this.directionY;
-            }
-
-            // Mouse interaction - Simplified math for performance
-            const dx = mouse.x - this.x;
-            const dy = mouse.y - this.y;
-            // Only check square distance to avoid Math.sqrt every frame
-            const distanceSq = dx*dx + dy*dy;
-            const radiusSq = (mouse.radius + this.size) * (mouse.radius + this.size);
-            
-            if (distanceSq < radiusSq){
-                if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 3;
-                if (mouse.x > this.x && this.x > this.size * 10) this.x -= 3;
-                if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 3;
-                if (mouse.y > this.y && this.y > this.size * 10) this.y -= 3;
-            }
-
-            this.x += this.directionX;
-            this.y += this.directionY;
-            this.draw();
-        }
-    }
-
-    // Mouse object
-    const mouse = {
-        x: null,
-        y: null,
-        radius: 100 // Fixed radius for consistent interaction
-    }
-
-    window.addEventListener('mousemove', (event) => {
-        mouse.x = event.x;
-        mouse.y = event.y;
-        
-        // Tilt Effect Logic
-        handleTilt(event);
-    });
-
-    // 3D Tilt Effect
-    const card = document.getElementById('tiltCard');
-    function handleTilt(e) {
-        if (window.innerWidth < 768) return; // Disable on mobile
-        
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        
-        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-    }
-    
-    // Reset tilt when mouse leaves
-    document.addEventListener('mouseleave', () => {
-        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-    });
-
-
-    // Initialize particles
-    function init() {
-        particlesArray = [];
-        // Performance optimization: Reduce particle density
-        // Increased divisor from 9000 to 13000 to keep frame rates high
-        let numberOfParticles = (canvas.height * canvas.width) / 13000;
-        
-        for (let i = 0; i < numberOfParticles; i++) {
-            let size = (Math.random() * 2.5) + 1; // Slightly smaller particles
-            let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-            let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-            let directionX = (Math.random() * 1.5) - 0.75; // Slower, smoother movement
-            let directionY = (Math.random() * 1.5) - 0.75;
-            
-            const colors = ['rgba(255, 182, 193, 0.7)', 'rgba(255, 105, 180, 0.5)', 'rgba(173, 216, 230, 0.5)'];
-            let color = colors[Math.floor(Math.random() * colors.length)];
-
-            particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-        }
-    }
-
-    // Animation Loop
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.clearRect(0, 0, innerWidth, innerHeight);
-        
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-        }
-        
-        connect();
-    }
-
-    // Connect particles
-    function connect() {
-        let opacityValue = 1;
-        // Optimization: Reduced connection distance
-        const connectionDistance = (canvas.width/9) * (canvas.height/9); 
-        
-        for (let a = 0; a < particlesArray.length; a++) {
-            for (let b = a; b < particlesArray.length; b++) {
-                // Square distance check is faster
-                let distanceSq = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + 
-                               ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                
-                if (distanceSq < connectionDistance) {
-                    opacityValue = 1 - (distanceSq/20000);
-                    // Use standard strokeStyle to avoid creating new string every frame if possible
-                    ctx.strokeStyle = `rgba(255, 182, 193, ${opacityValue})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                    ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                    ctx.stroke();
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        apple: {
+                            blue: '#0071e3',
+                            darkBlue: '#409cff',
+                            bg: '#F5F5F7',
+                            darkBg: '#000000',
+                            card: '#FFFFFF',
+                            darkCard: '#1c1c1e',
+                            text: '#1d1d1f',
+                            darkText: '#f5f5f7'
+                        }
+                    }
                 }
             }
         }
-    }
+    </script>
 
-    /**
-     * Typewriter Effect
-     */
-    const textElement = document.getElementById('typewriter');
-    const messages = ["To my favorite person", "To the moon and back", "Always & Forever", "You are magical"];
-    let messageIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
+    <!-- 
+      --- styles.css --- 
+      Copy the content between <style> tags to a separate styles.css file.
+    -->
+    <style>
+        /* Typography & Smoothing */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    function typeEffect() {
-        const currentMessage = messages[messageIndex];
+        /* Mobile Tap Highlights */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Custom Inputs */
+        .apple-input {
+            transition: all 0.2s ease;
+        }
+        .apple-input:focus {
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+            border-color: #0071e3;
+        }
+        .dark .apple-input:focus {
+            box-shadow: 0 0 0 4px rgba(64, 156, 255, 0.2);
+            border-color: #409cff;
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #0071e3;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #0071e3;
+        }
         
-        if (isDeleting) {
-            textElement.textContent = currentMessage.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            textElement.textContent = currentMessage.substring(0, charIndex + 1);
-            charIndex++;
+        /* Glassmorphism */
+        .glass {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        if (!isDeleting && charIndex === currentMessage.length) {
-            isDeleting = true;
-            setTimeout(typeEffect, 2000);
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            messageIndex = (messageIndex + 1) % messages.length;
-            setTimeout(typeEffect, 500);
-        } else {
-            setTimeout(typeEffect, isDeleting ? 50 : 100);
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-    }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-apple-bg dark:bg-black text-apple-text dark:text-apple-darkText transition-colors duration-300 min-h-screen flex flex-col">
 
-    /**
-     * Burst Hearts Function - Enhanced
-     */
-    function burstHearts() {
-        const container = document.body;
-        // More particles for better effect
-        for (let i = 0; i < 50; i++) {
-            const heart = document.createElement('div');
-            heart.innerHTML = ['❤️', '💖', '✨', '🌸', '🦋', '💜'][Math.floor(Math.random() * 6)];
-            heart.style.position = 'absolute';
-            // Start from center of button approx (or center screen)
-            heart.style.left = '50%';
-            heart.style.top = '50%';
-            heart.style.fontSize = Math.random() * 25 + 15 + 'px';
-            heart.style.pointerEvents = 'none';
-            heart.style.userSelect = 'none';
-            heart.style.transition = 'all 1.2s cubic-bezier(0, .9, .57, 1)';
-            heart.style.zIndex = '100';
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-[#1c1c1e]/80 glass border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-500 rounded-lg p-1.5 text-white shadow-lg shadow-blue-500/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight hidden sm:block">Triangle Pro</h1>
+                <h1 class="text-lg font-bold tracking-tight sm:hidden">Triangle</h1>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- Unit Switcher -->
+                <select id="unit-selector" class="bg-transparent text-sm font-medium focus:outline-none cursor-pointer dark:text-gray-300 mr-1 p-2 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+                    <option value="m">Meters (m)</option>
+                    <option value="ft">Feet (ft)</option>
+                    <option value="cm">CM (cm)</option>
+                    <option value="in">Inches (in)</option>
+                </select>
+
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle Dark Mode">
+                    <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
+
+                <!-- Export Button -->
+                <button onclick="exportImage()" class="p-2 rounded-full text-blue-500 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 transition-colors" title="Save Image">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        
+        <!-- Left Panel: Controls & Math -->
+        <div class="lg:col-span-5 space-y-4 sm:space-y-6 animate-fade-in" style="animation-delay: 0.1s;">
             
-            // Random direction spread
-            const angle = Math.random() * Math.PI * 2;
-            // Varies distance
-            const velocity = Math.random() * 400 + 100; 
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity;
-            const rotation = Math.random() * 360;
+            <!-- Mode Selection Tabs -->
+            <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-xl flex font-medium text-sm">
+                <button onclick="setMode('SSS')" id="tab-SSS" class="flex-1 py-2 rounded-lg shadow bg-white dark:bg-[#2c2c2e] text-blue-600 dark:text-blue-400 transition-all">SSS</button>
+                <button onclick="setMode('SAS')" id="tab-SAS" class="flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all">SAS</button>
+                <button onclick="setMode('ASA')" id="tab-ASA" class="flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all">ASA</button>
+            </div>
+
+            <!-- Input Card -->
+            <div class="bg-white dark:bg-[#1c1c1e] rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-semibold" id="input-title">Enter 3 Sides</h2>
+                    <span id="unit-badge" class="text-xs font-bold text-gray-400 uppercase tracking-wider bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">Meters</span>
+                </div>
+
+                <div class="space-y-4" id="inputs-container">
+                    <!-- Dynamic Inputs Generated via JS -->
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-box" class="hidden mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-sm font-medium" id="error-text">Invalid Dimensions</span>
+                </div>
+            </div>
+
+            <!-- Geometry Layers -->
+            <div class="bg-white dark:bg-[#1c1c1e] rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+                <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">Visual Layers</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="flex items-center gap-3 cursor-pointer group select-none">
+                        <div class="relative">
+                            <input type="checkbox" id="toggle-incircle" class="sr-only peer" onchange="solve()">
+                            <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Incircle</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group select-none">
+                        <div class="relative">
+                            <input type="checkbox" id="toggle-circumcircle" class="sr-only peer" onchange="solve()">
+                            <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-500"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Circumcircle</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group select-none">
+                        <div class="relative">
+                            <input type="checkbox" id="toggle-centroid" class="sr-only peer" onchange="solve()">
+                            <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Centroid</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group select-none">
+                        <div class="relative">
+                            <input type="checkbox" id="toggle-altitude" class="sr-only peer" onchange="solve()">
+                            <div class="w-10 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Altitude</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Show Your Work -->
+            <div class="bg-white dark:bg-[#1c1c1e] rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-300">
+                <button onclick="toggleWork()" class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-[#2c2c2e] transition-colors">
+                    <span class="font-semibold flex items-center gap-2">
+                        <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        Show Step-by-Step
+                    </span>
+                    <svg id="work-chevron" class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="math-steps" class="hidden px-6 pb-6 pt-2 bg-gray-50 dark:bg-[#000000] border-t border-gray-100 dark:border-gray-800 font-mono text-xs sm:text-sm leading-relaxed space-y-2 text-gray-600 dark:text-gray-300 overflow-x-auto">
+                    <!-- Math steps injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Canvas & Stats -->
+        <div class="lg:col-span-7 space-y-4 sm:space-y-6 animate-fade-in" style="animation-delay: 0.2s;">
             
-            container.appendChild(heart);
-            
-            // Animate
-            requestAnimationFrame(() => {
-                heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${rotation}deg) scale(0)`;
-                heart.style.opacity = '0';
+            <!-- Canvas Container -->
+            <!-- Mobile optimized: reduced height on small screens -->
+            <div class="bg-white dark:bg-[#1c1c1e] rounded-3xl p-1 shadow-sm h-[300px] sm:h-[400px] relative overflow-hidden flex items-center justify-center transition-colors duration-300 border border-transparent dark:border-gray-800">
+                <!-- Grid Background -->
+                <div class="absolute inset-0 opacity-[0.05] dark:opacity-[0.1]" style="background-image: linear-gradient(#999 1px, transparent 1px), linear-gradient(90deg, #999 1px, transparent 1px); background-size: 20px 20px;"></div>
+                
+                <canvas id="triangleCanvas" class="relative z-10 w-full h-full"></canvas>
+                
+                <!-- Overlay Info -->
+                <div class="absolute top-4 left-4 flex gap-2">
+                     <span id="type-badge" class="px-3 py-1 bg-black/5 dark:bg-white/10 backdrop-blur rounded-full text-xs font-bold text-gray-600 dark:text-gray-300">Scalene</span>
+                     <span id="angle-type-badge" class="px-3 py-1 bg-black/5 dark:bg-white/10 backdrop-blur rounded-full text-xs font-bold text-gray-600 dark:text-gray-300">Acute</span>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Primary Area Card -->
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-800 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group col-span-1 md:col-span-2">
+                    <div class="absolute top-0 right-0 -mr-10 -mt-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+                    <div class="relative z-10 flex justify-between items-end">
+                        <div>
+                            <p class="text-blue-100 text-sm font-semibold uppercase tracking-wide">Area</p>
+                            <div class="flex items-baseline gap-2 flex-wrap">
+                                <!-- Adaptive text size for mobile -->
+                                <span id="area-val" class="text-4xl sm:text-5xl font-bold tracking-tight">--</span>
+                                <span class="text-xl text-blue-100 unit-label">m²</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-blue-100 text-xs mb-1">Comparison</p>
+                            <p id="real-world-comp" class="text-sm font-medium bg-white/20 px-3 py-1 rounded-lg backdrop-blur">Small Room</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perimeter -->
+                <div class="bg-white dark:bg-[#1c1c1e] p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800">
+                    <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Perimeter</p>
+                    <div class="text-2xl font-bold mt-1"><span id="perim-val">--</span> <span class="text-sm text-gray-400 font-normal unit-label">m</span></div>
+                </div>
+
+                <!-- Height -->
+                <div class="bg-white dark:bg-[#1c1c1e] p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800">
+                    <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Height (Base C)</p>
+                    <div class="text-2xl font-bold mt-1"><span id="height-val">--</span> <span class="text-sm text-gray-400 font-normal unit-label">m</span></div>
+                </div>
+
+                <!-- Advanced Stats (Inradius/Circumradius) -->
+                <div class="bg-white dark:bg-[#1c1c1e] p-5 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 md:col-span-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+                    <div class="flex-1">
+                         <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Inradius (r)</p>
+                         <div class="text-xl font-bold"><span id="inradius-val">--</span></div>
+                    </div>
+                    <!-- Separator hidden on mobile, shown on desktop -->
+                    <div class="hidden sm:block h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Circumradius (R)</p>
+                        <div class="text-xl font-bold"><span id="circumradius-val">--</span></div>
+                   </div>
+                   <div class="hidden sm:block h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+                   <div class="flex-1">
+                        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Semi-Perimeter</p>
+                        <div class="text-xl font-bold"><span id="s-val">--</span></div>
+                   </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 
+      --- script.js --- 
+      Copy the content between <script> tags (below this comment) to a separate script.js file.
+    -->
+    <script>
+        // --- Configuration & State ---
+        const state = {
+            mode: 'SSS', // SSS, SAS, ASA
+            values: { a: 3, b: 4, c: 5, angleA: 0, angleB: 0, angleC: 0 },
+            unit: 'm',
+            darkMode: false
+        };
+
+        const DOM = {
+            inputsContainer: document.getElementById('inputs-container'),
+            unitSelector: document.getElementById('unit-selector'),
+            unitBadge: document.getElementById('unit-badge'),
+            errorBox: document.getElementById('error-box'),
+            errorText: document.getElementById('error-text'),
+            canvas: document.getElementById('triangleCanvas'),
+            mathSteps: document.getElementById('math-steps'),
+            realWorld: document.getElementById('real-world-comp')
+        };
+
+        const ctx = DOM.canvas.getContext('2d');
+
+        // --- Initialization ---
+
+        function init() {
+            renderInputs();
+            checkSystemTheme();
+            solve();
+
+            DOM.unitSelector.addEventListener('change', (e) => {
+                state.unit = e.target.value;
+                document.querySelectorAll('.unit-label').forEach(el => el.innerText = state.unit === 'ft' || state.unit === 'in' ? state.unit : state.unit === 'cm' ? 'cm' : 'm' + (el.parentElement.id === 'area-val' ? '²' : ''));
+                DOM.unitBadge.innerText = e.target.options[e.target.selectedIndex].text;
+                solve(); 
+            });
+
+            // Re-solve on resize to keep canvas sharp
+            window.addEventListener('resize', () => requestAnimationFrame(solve));
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            state.darkMode = document.documentElement.classList.contains('dark');
+            document.getElementById('sun-icon').classList.toggle('hidden');
+            document.getElementById('moon-icon').classList.toggle('hidden');
+            solve(); 
+        }
+
+        function checkSystemTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                toggleDarkMode();
+            }
+        }
+
+        function setMode(mode) {
+            state.mode = mode;
+            // Update Tab Styles
+            ['SSS', 'SAS', 'ASA'].forEach(m => {
+                const btn = document.getElementById(`tab-${m}`);
+                if (m === mode) {
+                    btn.className = "flex-1 py-2 rounded-lg shadow bg-white dark:bg-[#2c2c2e] text-blue-600 dark:text-blue-400 transition-all font-bold";
+                } else {
+                    btn.className = "flex-1 py-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all";
+                }
             });
             
-            // Cleanup
-            setTimeout(() => {
-                heart.remove();
-            }, 1200);
+            // Set Default Valid Values
+            if (mode === 'SSS') { state.values = { a: 3, b: 4, c: 5 }; }
+            if (mode === 'SAS') { state.values = { a: 5, b: 7, angleC: 45 }; }
+            if (mode === 'ASA') { state.values = { angleA: 45, c: 10, angleB: 45 }; }
+
+            renderInputs();
+            solve();
         }
-    }
 
-    // Start everything
-    init();
-    animate();
-    typeEffect();
+        function renderInputs() {
+            const configs = {
+                SSS: [
+                    { id: 'a', label: 'Side a', placeholder: 'Length' },
+                    { id: 'b', label: 'Side b', placeholder: 'Length' },
+                    { id: 'c', label: 'Side c', placeholder: 'Length' }
+                ],
+                SAS: [
+                    { id: 'a', label: 'Side a', placeholder: 'Length' },
+                    { id: 'angleC', label: 'Angle γ (C)', placeholder: 'Degrees', max: 179 },
+                    { id: 'b', label: 'Side b', placeholder: 'Length' }
+                ],
+                ASA: [
+                    { id: 'angleA', label: 'Angle α (A)', placeholder: 'Degrees', max: 179 },
+                    { id: 'c', label: 'Side c', placeholder: 'Length' },
+                    { id: 'angleB', label: 'Angle β (B)', placeholder: 'Degrees', max: 179 }
+                ]
+            };
 
-</script>
+            let html = '';
+            configs[state.mode].forEach(input => {
+                html += `
+                <div class="group">
+                    <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 ml-1">${input.label}</label>
+                    <input type="number" id="input-${input.id}" value="${state.values[input.id]}" 
+                        min="0.1" step="0.1" ${input.max ? `max="${input.max}"` : ''}
+                        oninput="updateValue('${input.id}', this.value)"
+                        class="apple-input w-full bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white text-lg rounded-xl focus:ring-blue-500 focus:border-blue-500 block p-4" placeholder="${input.placeholder}">
+                </div>`;
+            });
+            DOM.inputsContainer.innerHTML = html;
+            document.getElementById('input-title').innerText = 
+                state.mode === 'SSS' ? 'Enter 3 Sides' : 
+                state.mode === 'SAS' ? 'Side-Angle-Side' : 'Angle-Side-Angle';
+        }
+
+        function updateValue(key, val) {
+            state.values[key] = parseFloat(val);
+            solve();
+        }
+
+        function toggleWork() {
+            const el = DOM.mathSteps;
+            const chevron = document.getElementById('work-chevron');
+            el.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        // --- Math & Solver Engine ---
+
+        function toRad(deg) { return deg * Math.PI / 180; }
+        function toDeg(rad) { return rad * 180 / Math.PI; }
+
+        function solve() {
+            let a, b, c, A, B, C, area;
+            const vals = state.values;
+            let stepsHTML = "";
+            let error = null;
+
+            try {
+                if (state.mode === 'SSS') {
+                    a = vals.a; b = vals.b; c = vals.c;
+                    if (a + b <= c || a + c <= b || b + c <= a) throw "Impossible Triangle (Triangle Inequality)";
+                    
+                    A = Math.acos((b*b + c*c - a*a) / (2*b*c));
+                    B = Math.acos((a*a + c*c - b*b) / (2*a*c));
+                    C = Math.PI - A - B;
+
+                    const s = (a+b+c)/2;
+                    area = Math.sqrt(s*(s-a)*(s-b)*(s-c));
+                    
+                    stepsHTML = `<p><strong>1. Find Semi-perimeter:</strong> s = (${a}+${b}+${c})/2 = ${s}</p>
+                        <p><strong>2. Heron's Formula:</strong> Area = √[${s}(${s}-${a})...] = ${area.toFixed(2)}</p>`;
+
+                } else if (state.mode === 'SAS') {
+                    a = vals.a; b = vals.b; C = toRad(vals.angleC);
+                    if (vals.angleC >= 180 || vals.angleC <= 0) throw "Angle must be between 0 and 180";
+                    
+                    c = Math.sqrt(a*a + b*b - 2*a*b*Math.cos(C));
+                    A = Math.acos((b*b + c*c - a*a) / (2*b*c));
+                    B = Math.PI - A - C;
+                    area = 0.5 * a * b * Math.sin(C);
+
+                    stepsHTML = `<p><strong>1. Law of Cosines:</strong> c = √(${a}² + ${b}²...) = ${c.toFixed(2)}</p>
+                        <p><strong>2. SAS Area:</strong> 0.5 × ${a} × ${b} × sin(${toDeg(C)}°) = ${area.toFixed(2)}</p>`;
+
+                } else if (state.mode === 'ASA') {
+                    A = toRad(vals.angleA); B = toRad(vals.angleB); c = vals.c;
+                    if (toDeg(A) + toDeg(B) >= 180) throw "Sum of angles A and B must be < 180";
+
+                    C = Math.PI - A - B;
+                    a = c * Math.sin(A) / Math.sin(C);
+                    b = c * Math.sin(B) / Math.sin(C);
+                    area = 0.5 * b * c * Math.sin(A);
+
+                    stepsHTML = `<p><strong>1. Find Angle C:</strong> 180° - ${toDeg(A)}° - ${toDeg(B)}° = ${toDeg(C).toFixed(1)}°</p>
+                        <p><strong>2. Law of Sines:</strong> a/sin(A) = c/sin(C) → a = ${a.toFixed(2)}</p>`;
+                }
+
+            } catch (e) {
+                error = e;
+            }
+
+            if (error || isNaN(area) || area <= 0) {
+                DOM.errorBox.classList.remove('hidden');
+                DOM.errorText.innerText = error || "Invalid Dimensions";
+                clearStats();
+                DOM.canvas.style.opacity = '0.3';
+                return;
+            } else {
+                DOM.errorBox.classList.add('hidden');
+                DOM.canvas.style.opacity = '1';
+            }
+
+            const perimeter = a + b + c;
+            const s = perimeter / 2;
+            const h_c = (2 * area) / c;
+            const r = area / s; 
+            const R = (a * b * c) / (4 * area); 
+
+            updateStats({ area, perimeter, h_c, s, r, R, A, B, C, a, b, c });
+            DOM.mathSteps.innerHTML = stepsHTML;
+            draw(a, b, c, A, B, C, h_c);
+        }
+
+        function updateStats(data) {
+            document.getElementById('area-val').innerText = fmt(data.area);
+            document.getElementById('perim-val').innerText = fmt(data.perimeter);
+            document.getElementById('height-val').innerText = fmt(data.h_c);
+            document.getElementById('s-val').innerText = fmt(data.s);
+            document.getElementById('inradius-val').innerText = fmt(data.r);
+            document.getElementById('circumradius-val').innerText = fmt(data.R);
+
+            const degs = [toDeg(data.A), toDeg(data.B), toDeg(data.C)];
+            const maxAng = Math.max(...degs);
+            const sideType = (Math.abs(data.a - data.b) < 0.01 && Math.abs(data.b - data.c) < 0.01) ? "Equilateral" :
+                             (Math.abs(data.a - data.b) < 0.01 || Math.abs(data.b - data.c) < 0.01 || Math.abs(data.a - data.c) < 0.01) ? "Isosceles" : "Scalene";
+            const angType = Math.abs(maxAng - 90) < 0.1 ? "Right" : maxAng > 90 ? "Obtuse" : "Acute";
+
+            document.getElementById('type-badge').innerText = sideType;
+            document.getElementById('angle-type-badge').innerText = angType;
+
+            const area = data.area;
+            let comp = "";
+            if(state.unit === 'm') {
+                if(area < 1) comp = "Coffee Table";
+                else if(area < 4) comp = "King Size Bed";
+                else if(area < 15) comp = "Small Bedroom";
+                else if(area < 30) comp = "Living Room";
+                else if(area < 200) comp = "Tennis Court";
+                else comp = "Small Field";
+            } else {
+                comp = "Geometric Shape";
+            }
+            DOM.realWorld.innerText = comp;
+        }
+
+        function fmt(num) {
+            return num.toLocaleString('en-US', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+        }
+
+        function clearStats() {
+            ['area-val', 'perim-val', 'height-val', 'inradius-val'].forEach(id => document.getElementById(id).innerText = "--");
+        }
+
+        // --- Canvas Drawing ---
+
+        function draw(a, b, c, A, B, C, h_c) {
+            const dpr = window.devicePixelRatio || 1;
+            const rect = DOM.canvas.getBoundingClientRect();
+            DOM.canvas.width = rect.width * dpr;
+            DOM.canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const w = rect.width;
+            const h = rect.height;
+
+            const theme = state.darkMode ? {
+                line: '#409cff', fill: 'rgba(64, 156, 255, 0.15)', text: '#fff', 
+                pill: 'rgba(0,0,0,0.6)', pillText: '#fff'
+            } : {
+                line: '#0071e3', fill: 'rgba(0, 113, 227, 0.08)', text: '#1d1d1f', 
+                pill: 'rgba(255,255,255,0.8)', pillText: '#4b5563'
+            };
+
+            const p1 = { x: 0, y: 0 };
+            const p2 = { x: c, y: 0 };
+            const p3 = { x: b * Math.cos(A), y: b * Math.sin(A) };
+
+            const allX = [p1.x, p2.x, p3.x];
+            const allY = [p1.y, p2.y, p3.y];
+            const minX = Math.min(...allX);
+            const maxX = Math.max(...allX);
+            const minY = Math.min(...allY);
+            const maxY = Math.max(...allY);
+            
+            const padding = 60;
+            const scale = Math.min((w - padding*2)/(maxX-minX), (h - padding*2)/(maxY-minY));
+            const cx = (w - (maxX - minX)*scale)/2 - minX*scale;
+            const cy = (h - (maxY - minY)*scale)/2 - minY*scale;
+            const tr = (p) => ({ x: p.x * scale + cx, y: h - (p.y * scale + cy) });
+
+            const s1 = tr(p1);
+            const s2 = tr(p2);
+            const s3 = tr(p3);
+
+            ctx.clearRect(0,0,w,h);
+
+            // 1. Fill
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
+            ctx.lineTo(s3.x, s3.y);
+            ctx.closePath();
+            ctx.fillStyle = theme.fill;
+            ctx.fill();
+
+            // 2. Extra Layers
+            if (document.getElementById('toggle-altitude').checked) {
+                const foot = tr({ x: p3.x, y: 0 });
+                ctx.beginPath();
+                ctx.setLineDash([5, 5]);
+                ctx.moveTo(s3.x, s3.y);
+                ctx.lineTo(foot.x, foot.y);
+                ctx.strokeStyle = '#3b82f6';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+            if (document.getElementById('toggle-centroid').checked) {
+                const centerMath = { x: (p1.x+p2.x+p3.x)/3, y: (p1.y+p2.y+p3.y)/3 };
+                const center = tr(centerMath);
+                ctx.fillStyle = '#f97316';
+                ctx.beginPath(); ctx.arc(center.x, center.y, 5, 0, Math.PI*2); ctx.fill();
+            }
+            if (document.getElementById('toggle-incircle').checked) {
+                const r_math = parseFloat(document.getElementById('inradius-val').innerText.replace(/,/g,'')); 
+                if(!isNaN(r_math)){
+                   // Recalc center
+                   const s_ = (a+b+c)/2;
+                   const area_ = Math.sqrt(s_*(s_-a)*(s_-b)*(s_-c));
+                   const rad = (area_/s_) * scale;
+                   const ix = (a*p1.x + b*p2.x + c*p3.x) / (a+b+c);
+                   const iy = (a*p1.y + b*p2.y + c*p3.y) / (a+b+c);
+                   const icenter = tr({x: ix, y: iy});
+                   ctx.beginPath(); ctx.strokeStyle = '#22c55e'; ctx.lineWidth = 2;
+                   ctx.arc(icenter.x, icenter.y, rad, 0, Math.PI*2); ctx.stroke();
+                }
+            }
+            if (document.getElementById('toggle-circumcircle').checked) {
+                const D = 2 * (p1.x*(p2.y-p3.y) + p2.x*(p3.y-p1.y) + p3.x*(p1.y-p2.y));
+                if(Math.abs(D) > 0.00001) {
+                    const Ux = (1/D) * ((p1.x**2 + p1.y**2)*(p2.y-p3.y) + (p2.x**2 + p2.y**2)*(p3.y-p1.y) + (p3.x**2 + p3.y**2)*(p1.y-p2.y));
+                    const Uy = (1/D) * ((p1.x**2 + p1.y**2)*(p3.x-p2.x) + (p2.x**2 + p2.y**2)*(p1.x-p3.x) + (p3.x**2 + p3.y**2)*(p2.x-p1.x));
+                    const center = tr({x: Ux, y: Uy});
+                    const R_math = (a*b*c) / (4 * (0.5*c*p3.y));
+                    ctx.beginPath(); ctx.strokeStyle = '#a855f7'; ctx.lineWidth = 2;
+                    ctx.arc(center.x, center.y, R_math * scale, 0, Math.PI*2); ctx.stroke();
+                }
+            }
+
+            // 3. Outline
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
+            ctx.lineTo(s3.x, s3.y);
+            ctx.closePath();
+            ctx.strokeStyle = theme.line;
+            ctx.lineWidth = 3;
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+
+            // 4. Side Measurement Labels
+            const drawSideLabel = (pStart, pEnd, val) => {
+                const midX = (pStart.x + pEnd.x) / 2;
+                const midY = (pStart.y + pEnd.y) / 2;
+                const text = val.toLocaleString('en-US', {maximumFractionDigits:2});
+                
+                ctx.font = "bold 12px -apple-system";
+                const metrics = ctx.measureText(text);
+                const w = metrics.width + 12;
+                const h = 20;
+
+                ctx.fillStyle = theme.pill;
+                // Round Rect Pill
+                ctx.beginPath();
+                ctx.roundRect(midX - w/2, midY - h/2, w, h, 6);
+                ctx.fill();
+
+                ctx.fillStyle = theme.pillText;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(text, midX, midY);
+            };
+
+            // Side c (A-B)
+            drawSideLabel(s1, s2, c);
+            // Side b (A-C)
+            drawSideLabel(s1, s3, b);
+            // Side a (B-C)
+            drawSideLabel(s2, s3, a);
+
+            // 5. Corner Labels
+            ctx.fillStyle = theme.text;
+            ctx.font = "bold 14px sans-serif";
+            const offset = 24;
+            const drawLabel = (p, t) => {
+                const cx_ = (s1.x+s2.x+s3.x)/3;
+                const cy_ = (s1.y+s2.y+s3.y)/3;
+                const dx = p.x - cx_;
+                const dy = p.y - cy_;
+                const len = Math.sqrt(dx*dx + dy*dy);
+                ctx.fillText(t, p.x + (dx/len)*offset, p.y + (dy/len)*offset);
+            };
+            drawLabel(s1, "A");
+            drawLabel(s2, "B");
+            drawLabel(s3, "C");
+        }
+
+        function exportImage() {
+            const link = document.createElement('a');
+            link.download = 'triangle-pro-diagram.png';
+            link.href = DOM.canvas.toDataURL();
+            link.click();
+        }
+
+        init();
+    </script>
 </body>
 </html>
