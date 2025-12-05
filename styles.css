@@ -1,0 +1,48 @@
+/* Typography & Smoothing */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile Tap Highlights */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom Inputs */
+.apple-input {
+    transition: all 0.2s ease;
+}
+.apple-input:focus {
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+    border-color: #0071e3;
+}
+.dark .apple-input:focus {
+    box-shadow: 0 0 0 4px rgba(64, 156, 255, 0.2);
+    border-color: #409cff;
+}
+
+/* Custom Toggle Switch */
+.toggle-checkbox:checked {
+    right: 0;
+    border-color: #0071e3;
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: #0071e3;
+}
+
+/* Glassmorphism */
+.glass {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
